@@ -51,5 +51,8 @@ class User extends Authenticatable
         return $this->hasOne(Doctor::class);
     }
 
-
+    public function hotel(): HasOne
+    {
+        return $this->hasOne(Hotel::class);
+    }
 }
