@@ -29,10 +29,11 @@ class Airport extends Model
     {
         return $this->belongsTo(User::class);
     }
-    // public function fly(): HasMany
-    // {
-    //     return $this->hasMany(Fly::class);
-    // }
+    
+    public function fly(): HasMany
+    {
+        return $this->hasMany(Fly::class);
+    }
 
 
 }

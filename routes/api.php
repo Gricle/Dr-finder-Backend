@@ -45,13 +45,24 @@ Route::prefix('rooms')->group(function () {
 
 Route::prefix('airports')->group(function () {
     Route::get('/', [AirportController::class, 'index']);
-    Route::post('/', [AirportController::class, 'store'])
-    ->middleware('auth:sanctum');
-    Route::get('/{aireline}', [AirportController::class, 'show']);
+    Route::post('/', [AirportController::class, 'store']);
+    Route::get('/{airport}', [AirportController::class, 'show']);
     Route::put('/{id}', [AirportController::class, 'update'])
     ->middleware('auth:sanctum');
-    Route::delete('/{airline}', [AirportController::class, 'destroy'])
+    Route::delete('/{airport}', [AirportController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
+
+Route::prefix('flies')->group(function () {
+    Route::get('/', [AirportController::class, 'index']);
+    Route::post('/', [AirportController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{fly}', [AirportController::class, 'show']);
+    Route::put('/{id}', [AirportController::class, 'update'])
+    ->middleware('auth:sanctum');
+    Route::delete('/{fly}', [AirportController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
 
 
