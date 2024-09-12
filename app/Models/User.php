@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Hotel::class);
     }
+    
+    public function airport(): HasOne
+    {
+        return $this->hasOne(Airport::class);
+    }
 }
