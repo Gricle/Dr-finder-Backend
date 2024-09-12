@@ -35,7 +35,7 @@ class HotelController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $user->hotel()->create([
-            'name' => $request->first_name,
+            'name' => $request->name,
             'stars' => $request->stars,
             'description' => $request->description,
             'latitude' => $request->latitude,
