@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AirportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
@@ -41,4 +42,16 @@ Route::prefix('rooms')->group(function () {
     Route::delete('/{room}', [RoomController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
+
+Route::prefix('airports')->group(function () {
+    Route::get('/', [AirportController::class, 'index']);
+    Route::post('/', [AirportController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{aireline}', [AirportController::class, 'show']);
+    Route::put('/{id}', [AirportController::class, 'update'])
+    ->middleware('auth:sanctum');
+    Route::delete('/{airline}', [AirportController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
 
