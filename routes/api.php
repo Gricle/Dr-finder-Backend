@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\TouristController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -61,6 +62,16 @@ Route::prefix('flies')->group(function () {
     Route::put('/{id}', [AirportController::class, 'update'])
     ->middleware('auth:sanctum');
     Route::delete('/{fly}', [AirportController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
+Route::prefix('tourists')->group(function () {
+    Route::get('/', [TouristController::class, 'index']);
+    Route::post('/', [TouristController::class, 'store']);
+    Route::get('/{tourist}', [TouristController::class, 'show']);
+    Route::put('/{id}', [TouristController::class, 'update'])
+     ->middleware('auth:sanctum');
+    Route::delete('/{tourist}', [TouristController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
 
