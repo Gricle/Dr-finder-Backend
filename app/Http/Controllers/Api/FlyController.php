@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fly;
-use App\Http\Requests\StoreFlyRequest;
-use App\Http\Requests\UpdateFlyRequest;
+use App\Http\Requests\Fly\StoreFlyRequest;
+use App\Http\Requests\Fly\UpdateFlyRequest;
 use App\Http\Resources\FlyResource;
 use Illuminate\Http\Request;
 
