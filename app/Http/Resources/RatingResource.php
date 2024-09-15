@@ -18,8 +18,8 @@ class RatingResource extends JsonResource
             'id' => $this->id,
             'rateable_id' => $this->rateable_id,
             'rateable_type' => $this->rateable_type,
-            'rating' => $this->rating,
-            'Tourist_id' => $this->Tourist_id,
+            'score' => $this->score,
+            'tourist_id' => $this->tourist_id,
         ];
     }
 }

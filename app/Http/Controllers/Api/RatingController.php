@@ -27,6 +27,7 @@ class RatingController extends Controller
     public function store(StoreRatingRequest $request)
     {
         $tourist = $request->user()->tourist;
+        
         $rate = $tourist->rating()->create($request->validated());
     
         return new RatingResource($rate);
