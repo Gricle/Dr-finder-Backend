@@ -7,8 +7,10 @@ use App\Models\Tourist;
 use App\Http\Requests\Tourist\StoreTouristRequest;
 use App\Http\Requests\Tourist\UpdateTouristRequest;
 use App\Http\Resources\TouristResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class TouristController extends Controller
 {
@@ -24,29 +26,28 @@ class TouristController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(StoreTouristRequest $request)
+    
+    public function store(StoreTouristRequest $request)
     {
-        $user = Tourist::create([
-
+        $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->doctor()->create([
+
+        $user->tourist()->create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'national_code' => $request->national_code,
             'number' => $request->number,
             'birth_date' => $request->birth_date,
         ]);
+
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
-         
         ], 201);
-        
-    } 
-    
+    }
 
     /**
      * Display the specified resource.

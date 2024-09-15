@@ -8,27 +8,29 @@ class StoreTouristRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return true;
+        return true; // Allow all users to make this request
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array
      */
     public function rules()
     {
         return [
-            'first_name' => 'required|string|min:3|max:40',
-            'last_name' => 'required|string|min:3|max:40',
-            'national_code' => 'required|integer|min:5|max:20',
-            'number' => 'required|integer|min:5|max:15',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'national_code' => 'required|string|max:20',
+            'number' => 'required|string|max:15',
             'birth_date' => 'required|date',
-            'email' => 'required|string|max:255',
-            'password' => 'required|min:8|max:50',
         ];
     }
 }
