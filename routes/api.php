@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\HotelController;
+use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\TouristController;
 
@@ -70,10 +71,18 @@ Route::prefix('tourists')->group(function () {
     Route::post('/', [TouristController::class, 'store']);
     Route::get('/{tourist}', [TouristController::class, 'show']);
     Route::put('/{id}', [TouristController::class, 'update'])
-     ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum');
     Route::delete('/{tourist}', [TouristController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
 
-
-
+Route::prefix('ratings')->group(function () {
+    Route::get('/', [RatingController::class, 'index']);
+    Route::post('/', [RatingController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{rating}', [RatingController::class, 'show']);
+    Route::put('/{id}', [RatingController::class, 'update'])
+    ->middleware('auth:sanctum');
+    Route::delete('/{rating}', [RatingController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});

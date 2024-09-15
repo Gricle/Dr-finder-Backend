@@ -16,9 +16,10 @@ return new class extends Migration
             $table->foreignId('airport_id')->constrained()->cascadeOnDelete();
             $table->string('origin');
             $table->string('destination');
-            $table->string(column: 'description');
-            $table->timestamp(column: 'takeoff_time');
-            $table->timestamp(column: 'land_time');
+            $table->string('description');
+            $table->timestamp('takeoff_time');
+            $table->timestamp('land_time')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }
