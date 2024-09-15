@@ -9,6 +9,7 @@ use App\Http\Requests\Hotel\StoreHotelRequest;
 use App\Http\Requests\Hotel\UpdateHotelRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class HotelController extends Controller
@@ -93,5 +94,36 @@ class HotelController extends Controller
         $user->delete();
     
         return response()->noContent();
+    }
+    
+
+    public function recommendHotel(Request $request)
+    {
+        $query = DB::table('hotels')
+            ->leftJoin('ratings', function ($join) {
+                $join->on('ratings.rateable_id', '=', 'hotels.id')
+                     ->where('ratings.rateable_type', '=', 'App\\Models\\Hotel');
+            })
+            ->select('hotels.id', 'hotels.name', 
+                     DB::raw('AVG(ratings.score) as average_score'), 
+                     DB::raw('COUNT(ratings.id) as ratings_count'))
+            ->groupBy('hotels.id', 'hotels.name')
+            ->having('ratings_count', '>', 0);
+
+        $sortBy = $request->input('sort_by', 'average_score'); 
+        $order = $request->input('order', 'desc');
+    
+
+        if ($sortBy === 'average_score') {
+            $query->orderBy('average_score', $order);
+        } elseif ($sortBy === 'ratings_count') {
+            $query->orderBy('ratings_count', $order);
+        } elseif ($sortBy === 'combined') {
+            $query->orderBy(DB::raw('AVG(ratings.score) * COUNT(ratings.id)'), $order);
+        }
+    
+        $hotelData = $query->get();
+    
+        return response()->json($hotelData);
     }
 }

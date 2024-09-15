@@ -25,6 +25,7 @@ Route::prefix('doctors')->group(function () {
 });
 
 Route::prefix('hotels')->group(function () {
+    Route::get('/recommend', [HotelController::class, 'recommendHotel']);
     Route::get('/', [HotelController::class, 'index']);
     Route::post('/', [HotelController::class, 'store']);
     Route::get('/{hotel}', [HotelController::class, 'show']);
