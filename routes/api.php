@@ -7,7 +7,8 @@ use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\RoomController;
-use App\Http\Controllers\Api\TouristController;
+use App\Http\Controllers\Api\Tourist\TouristController;
+use App\Http\Controllers\Api\Tourist\ReservationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -85,5 +86,16 @@ Route::prefix('ratings')->group(function () {
     Route::put('/{id}', [RatingController::class, 'update'])
     ->middleware('auth:sanctum');
     Route::delete('/{rating}', [RatingController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
+Route::prefix('reserves')->group(function () {
+    Route::get('/', [ReservationController::class, 'index']);
+    Route::post('/', [ReservationController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{reserve}', [ReservationController::class, 'show']);
+    Route::put('/{id}', [ReservationController::class, 'update'])
+    ->middleware('auth:sanctum');
+    Route::delete('/{reserve}', [ReservationController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
