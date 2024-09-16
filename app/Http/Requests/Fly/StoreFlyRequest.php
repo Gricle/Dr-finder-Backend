@@ -28,6 +28,7 @@ class StoreFlyRequest extends FormRequest
             'takeoff_time' => 'required|date_format:Y-m-d H:i:s',
             'land_time' => 'required|date_format:Y-m-d H:i:s',
             'seats' => 'required|integer|min:3|max:100',
+            'price' => 'required|integer|min:3|max:10',
 
         ];
     }

@@ -28,6 +28,8 @@ class UpdateFlyRequest extends FormRequest
             'takeoff_time' => 'date_format:Y-m-d H:i:s',
             'land_time' => 'date_format:Y-m-d H:i:s',
             'seats' => 'integer|min:3|max:100',
+            'price' => 'integer|min:3|max:10',
+
         ];
     }
 }

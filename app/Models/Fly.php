@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Fly extends Model
@@ -19,6 +20,8 @@ class Fly extends Model
         'takeoff_time',
         'land_time',
         'seats',
+        'taken_seats',
+        'price',
     ];
 
     /**
@@ -28,5 +31,10 @@ class Fly extends Model
     {
         return $this->belongsTo(Airport::class);
     }
+    public function ticket(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
 }
 
