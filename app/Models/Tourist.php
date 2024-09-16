@@ -31,4 +31,9 @@ public function rating(): HasMany
     return $this->hasMany(Rating::class);
 }
 
+public function ticket(): HasMany
+{
+    return $this->hasMany(Ticket::class);
+}
+
 }
