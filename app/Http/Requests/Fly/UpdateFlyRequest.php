@@ -27,7 +27,7 @@ class UpdateFlyRequest extends FormRequest
             'description' => 'string|min:3|max:255',
             'takeoff_time' => 'date_format:Y-m-d H:i:s',
             'land_time' => 'date_format:Y-m-d H:i:s',
-
+            'seats' => 'integer|min:3|max:100',
         ];
     }
 }

@@ -18,6 +18,7 @@ class Fly extends Model
         'destination',
         'takeoff_time',
         'land_time',
+        'seats',
     ];
 
     /**
