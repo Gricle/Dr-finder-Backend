@@ -4,11 +4,13 @@ use App\Http\Controllers\Api\AirportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\FlyController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\Tourist\TouristController;
 use App\Http\Controllers\Api\Tourist\ReservationController;
+use App\Http\Controllers\Api\Tourist\TicketController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -58,13 +60,13 @@ Route::prefix('airports')->group(function () {
 });
 
 Route::prefix('flies')->group(function () {
-    Route::get('/', [AirportController::class, 'index']);
-    Route::post('/', [AirportController::class, 'store'])
+    Route::get('/', [FlyController::class, 'index']);
+    Route::post('/', [FlyController::class, 'store'])
     ->middleware('auth:sanctum');
-    Route::get('/{fly}', [AirportController::class, 'show']);
-    Route::put('/{id}', [AirportController::class, 'update'])
+    Route::get('/{fly}', [FlyController::class, 'show']);
+    Route::put('/{id}', [FlyController::class, 'update'])
     ->middleware('auth:sanctum');
-    Route::delete('/{fly}', [AirportController::class, 'destroy'])
+    Route::delete('/{fly}', [FlyController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
 
@@ -97,5 +99,16 @@ Route::prefix('reserves')->group(function () {
     Route::put('/{id}', [ReservationController::class, 'update'])
     ->middleware('auth:sanctum');
     Route::delete('/{reserve}', [ReservationController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
+Route::prefix('tickets')->group(function () {
+    Route::get('/', [TicketController::class, 'index']);
+    Route::post('/', [TicketController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{tiocket}', [TicketController::class, 'show']);
+    Route::put('/{id}', [TicketController::class, 'update'])
+    ->middleware('auth:sanctum');
+    Route::delete('/{tiocket}', [TicketController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });

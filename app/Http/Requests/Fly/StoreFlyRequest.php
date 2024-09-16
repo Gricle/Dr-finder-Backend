@@ -16,20 +16,18 @@ class StoreFlyRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'origin' => 'required|string|min:2|max:60',
-            'destination' => 'required|string|min:2|max:60',
-            'description' => 'required|string|min:3|max:255',
-            'takeoff_time' => 'required|date_format:Y-m-d H:i:s',
-            'land_time' => 'required|date_format:Y-m-d H:i:s',
-            'seats' => 'required|integer|min:3|max:100',
-            'price' => 'required|integer|min:3|max:10',
-
+            'origin' => 'required|string|max:255',
+            'destination' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'takeoff_time' => 'required|date|after_or_equal:now',
+            'land_time' => 'required|date|after:takeoff_time',
+            'seats' => 'required|integer|min:2|max:400',
+            'price' => 'required|numeric|min:2|max:30000'
         ];
     }
+
 }

@@ -25,15 +25,14 @@ class FlyController extends Controller
      */
     public function store(StoreFlyRequest $request)
     {
-        $airport = $request->user()->airport;
-        $flies = $airport->fly()->create($request->validated());
-    
-        return response()->json([
-            'message' => 'fly created successfully!',
-            'fly' => new FlyResource($flies)
-        ], 201);
-    }
+    $airport = $request->user()->airport;
+    $fly = $airport->fly()->create($request->validated());
 
+    return response()->json([
+        'message' => 'Flight created successfully!',
+        'fly' => new FlyResource($fly)
+    ], 201);
+    }
 
     /**
      * Display the specified resource.

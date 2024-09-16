@@ -21,6 +21,8 @@ class FlyResource extends JsonResource
             'destination' => $this->destination,
             'takeoff_time' => $this->takeoff_time,
             'land_time' => $this->land_time,
+            'seats' => $this->seats,
+            'taken_seats' => $this->taken_seats,
         ];
     }
 }

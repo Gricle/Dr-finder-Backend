@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('origin');
             $table->string('destination');
             $table->string('description');
-            $table->timestamp('takeoff_time');
-            $table->timestamp('land_time')->nullable();
+            $table->dateTime('takeoff_time');
+            $table->dateTime('land_time');
             $table->timestamps();
             $table->softDeletes();
         });

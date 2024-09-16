@@ -17,6 +17,7 @@ class Fly extends Model
         'airport_id',
         'origin',
         'destination',
+        'description',
         'takeoff_time',
         'land_time',
         'seats',
