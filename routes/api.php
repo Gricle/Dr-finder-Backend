@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\Tourist\TouristController;
 use App\Http\Controllers\Api\Tourist\ReservationController;
 use App\Http\Controllers\Api\Tourist\TicketController;
+use App\Http\Controllers\Api\Tourist\VisitController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -110,5 +111,14 @@ Route::prefix('tickets')->group(function () {
     Route::put('/{id}', [TicketController::class, 'update'])
     ->middleware('auth:sanctum');
     Route::delete('/{tiocket}', [TicketController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+});
+
+Route::prefix('visits')->group(function () {
+    Route::get('/', [VisitController::class, 'index']);
+    Route::post('/', [VisitController::class, 'store'])
+    ->middleware('auth:sanctum');
+    Route::get('/{visit}', [VisitController::class, 'show']);
+    Route::delete('/{visit}', [VisitController::class, 'destroy'])
     ->middleware('auth:sanctum');
 });
