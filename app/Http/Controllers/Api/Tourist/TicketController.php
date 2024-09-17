@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Http\Requests\Ticket\StoreTicketRequest;
 use App\Http\Requests\Ticket\UpdateTicketRequest;
 use App\Http\Resources\TicketResource;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -49,16 +50,26 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return new TicketResource ($ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
+    public function destroy($id, Request $request)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $tourist = $ticket->tourist;
+    
+        if ($request->user()->id !== $tourist->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        $ticket->delete();
+    
+        return response()->noContent();
     }
+
 
     public function addTakenSeatToFly($flyID)
     {
