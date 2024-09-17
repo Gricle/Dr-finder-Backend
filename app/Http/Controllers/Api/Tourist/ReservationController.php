@@ -55,12 +55,18 @@ class ReservationController extends Controller
         return response()->json($reservation);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $reservation = Reservation::findOrFail($id);
-        $reservation->delete();
-
-        return response()->json(['message' => 'Reservation deleted successfully.']);
+        $reserve = Reservation::findOrFail($id);
+        $tourist = $reserve->tourist;
+    
+        if ($request->user()->id !== $tourist->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        $reserve->delete();
+    
+        return response()->noContent();
     }
 
 
