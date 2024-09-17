@@ -61,7 +61,7 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         $tourist = $ticket->tourist;
     
-        if ($request->user()->id !== $tourist->id) {
+        if ($request->user()->tourist->id !== $tourist->id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
     

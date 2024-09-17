@@ -60,7 +60,7 @@ class ReservationController extends Controller
         $reserve = Reservation::findOrFail($id);
         $tourist = $reserve->tourist;
     
-        if ($request->user()->id !== $tourist->id) {
+        if ($request->user()->tourist->id !== $tourist->id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
     
