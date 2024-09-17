@@ -23,6 +23,7 @@ class UpdateDoctorRequest extends FormRequest
             'address' => 'string|max:255',
             'email' => 'string|max:255',
             'password' => 'min:8|max:50',
+            'visit_price' => 'integer|min:10|max:1000'
         ];
     }
 }

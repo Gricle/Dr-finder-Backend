@@ -24,7 +24,8 @@ class Doctor extends Model
         'latitude',
         'longitude',
         'expertise',
-        'address'
+        'address',
+        'visit_price'
     ];
 
     public function user(): BelongsTo

@@ -39,6 +39,7 @@ class DoctorController extends Controller
             'longitude' => $request->longitude,
             'expertise' => $request->expertise,
             'address' => $request->address,
+            'visit_price' => $request->visit_price
         ]);
         return response()->json([
             'status' => true,

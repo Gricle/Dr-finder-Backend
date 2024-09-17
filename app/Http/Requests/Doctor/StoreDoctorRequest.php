@@ -23,6 +23,7 @@ class StoreDoctorRequest extends FormRequest
             'address' => 'required|string|max:255',
             'email' => 'required|string|max:255',
             'password' => 'required|min:8|max:50',
+            'visit_price' => 'required|integer|min:10|max:1000'
         ];
     }
 }
