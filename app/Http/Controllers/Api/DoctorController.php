@@ -16,9 +16,24 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Doctor::all();
+        $query = Doctor::query();
+    
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('first_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('expertise', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+        if ($request->has('sort_by') && in_array($request->sort_by, ['first_name', 'expertise'])) {
+            $sortOrder = $request->has('sort_order') && $request->sort_order === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($request->sort_by, $sortOrder);
+        }
+    
+        $doctors = $query->get();
+    
         return DoctorResource::collection($doctors);
     }
     /**
