@@ -15,10 +15,10 @@ class HotelSeeder extends Seeder
 
      public function run()
      {
-         User::factory()//Hotel seeder
-             ->count(10) 
+         User::factory()
+             ->count(1) 
              ->has(Hotel::factory()->count(1))
-             ->create();//Hotel seeder
+             ->create();
      }
 
 }

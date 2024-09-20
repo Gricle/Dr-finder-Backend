@@ -2,16 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Hotel;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 
 class RoomSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+        Hotel::all()->each(function ($hotel) {
+            Room::factory()
+                ->count(2)
+                ->create(['hotel_id' => $hotel->id]);
+        });
     }
 }

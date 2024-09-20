@@ -16,8 +16,8 @@ class HotelFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'stars' => $this->faker->numberBetween(1, 5),
-            'description' => $this->faker->paragraph(),
+            'stars' => $this->faker->numberBetween(1, 10),
+            'description' => $this->faker->paragraph(1),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'address' => $this->faker->address(),

@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Airport;
 use Illuminate\Database\Seeder;
 
 class AirportSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+   
+        User::factory()
+            ->count(1) 
+            ->create()
+            ->each(function ($user) {
+                $user->airport()->create(Airport::factory()->make()->toArray());
+            });
     }
 }

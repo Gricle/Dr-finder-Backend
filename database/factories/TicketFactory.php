@@ -2,22 +2,21 @@
 
 namespace Database\Factories;
 
+use App\Models\Ticket;
+use App\Models\Tourist;
+use App\Models\Fly;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
- */
 class TicketFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Ticket::class;
+
+    public function definition()
     {
         return [
-            //
+            'tourist_id' => Tourist::factory(), 
+            'fly_id' => Fly::factory(),
+            'seat_number' => $this->faker->unique()->numberBetween(1, 100),
         ];
     }
 }

@@ -2,22 +2,34 @@
 
 namespace Database\Factories;
 
+use App\Models\Rating;
+use App\Models\Doctor;
+use App\Models\Hotel;
+use App\Models\Airport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Rating>
- */
 class RatingFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Rating::class;
+
+    public function definition()
     {
+        $rateableType = $this->faker->randomElement([
+            Doctor::class,
+            Hotel::class,
+            Airport::class,
+        ]);
+
         return [
-            //
+            'score' => $this->faker->numberBetween(1, 10),
+            'rateable_id' => $this->getRandomRateableId($rateableType),
+            'rateable_type' => $rateableType,
         ];
+    }
+
+    private function getRandomRateableId($rateableType)
+    {
+
+        return $rateableType::inRandomOrder()->first()->id ?? null;
     }
 }

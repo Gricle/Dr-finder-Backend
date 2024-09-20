@@ -2,22 +2,23 @@
 
 namespace Database\Factories;
 
+use App\Models\Visit;
+use App\Models\Tourist;
+use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Visit>
- */
 class VisitFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Visit::class;
+
+    public function definition()
     {
         return [
-            //
+            'tourist_id' => Tourist::factory(),
+            'doctor_id' => Doctor::factory(),
+            'visit_date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'price' => $this->faker->numberBetween(50, 500),
         ];
     }
 }

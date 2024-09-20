@@ -2,16 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Airport;
+use App\Models\Fly;
 use Illuminate\Database\Seeder;
 
 class FlySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+        Airport::all()->each(function ($airport) {
+            Fly::factory()
+                ->count(1)
+                ->create(['airport_id' => $airport->id]);
+        });
     }
 }

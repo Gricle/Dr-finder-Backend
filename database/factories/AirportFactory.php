@@ -2,22 +2,21 @@
 
 namespace Database\Factories;
 
+use App\Models\Airport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Airport>
- */
 class AirportFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Airport::class;
+
+    public function definition()
     {
         return [
-            //
+            'name' => $this->faker->company() . ' Airport',
+            'description' => $this->faker->paragraph(2),
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
+            'address' => $this->faker->address(),
         ];
     }
 }
