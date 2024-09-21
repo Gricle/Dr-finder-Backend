@@ -74,6 +74,7 @@ Route::prefix('flies')->group(function () {
 Route::prefix('tourists')->group(function () {
     Route::get('/', [TouristController::class, 'index']);
     Route::post('/', [TouristController::class, 'store']);
+    Route::get('/touristActivities/{touristID}', [TouristController::class, 'TouristActivities']);
     Route::get('/{tourist}', [TouristController::class, 'show']);
     Route::put('/{id}', [TouristController::class, 'update'])
     ->middleware('auth:sanctum');
