@@ -8,7 +8,9 @@ use App\Http\Requests\Doctor\StoreDoctorRequest;
 use App\Http\Requests\Doctor\UpdateDoctorRequest;
 use App\Http\Resources\DoctorResource;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -107,5 +109,21 @@ class DoctorController extends Controller
         $user->delete();
     
         return response()->noContent();
+    }
+
+    public function getDoctorVisits($doctorID)
+    {
+        $doctor = Doctor::findOrFail($doctorID);
+        $visits = Visit::where('doctor_id', $doctor->id)->get();
+        if ($visits->isEmpty()) {
+            return response()->json([
+                'message' => 'No visits found for this doctor.'
+            ], 404);
+        }
+        
+        return response()->json([
+            'doctor' => $doctor,
+            'visits' => $visits
+        ]);
     }
 }

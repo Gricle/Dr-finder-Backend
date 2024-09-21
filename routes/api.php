@@ -21,6 +21,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('doctors')->group(function () {
     Route::get('/', [DoctorController::class, 'index']);
     Route::post('/', [DoctorController::class, 'store']);
+    Route::get('/drvisits/{doctorID}', [DoctorController::class, 'getDoctorVisits']);
     Route::get('/{doctor}', [DoctorController::class, 'show']);
     Route::put('/{id}', [DoctorController::class, 'update'])
      ->middleware('auth:sanctum');
