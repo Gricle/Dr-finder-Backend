@@ -21,3 +21,8 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+dockerfiles/php.root.dockerfile
+dockerfiles/php.dockerfile
+dockerfiles/nginx/default.conf
+dockerfiles/nginx.dockerfile
+docker-compose.yml
