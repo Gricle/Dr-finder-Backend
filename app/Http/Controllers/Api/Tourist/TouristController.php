@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\Tourist;
 
+use App\Helpers\DistanceHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\Tourist;
 use App\Http\Requests\Tourist\StoreTouristRequest;
 use App\Http\Requests\Tourist\UpdateTouristRequest;
 use App\Http\Resources\TouristResource;
+use App\Models\Doctor;
+use App\Models\Hotel;
 use App\Models\User;
 use App\Models\Visit;
 use Illuminate\Http\Request;
@@ -129,6 +132,27 @@ class TouristController extends Controller
             'tourist' => $tourist,
             'activities' => $activities,
         ]);
+    }
 
-}
+    public function calculateDistance(Request $request)
+    {
+        $request->validate([
+            'doctor_id' => 'required|exists:doctors,id',
+            'hotel_id' => 'required|exists:hotels,id',
+        ]);
+    
+        $doctor = Doctor::findOrFail($request->doctor_id);
+        $hotel = Hotel::findOrFail($request->hotel_id);
+
+        $doctor_lat = $doctor->latitude;
+        $doctor_lon = $doctor->longitude;
+        $hotel_lat = $hotel->latitude;
+        $hotel_lon = $hotel->longitude;
+
+        $distance = DistanceHelper::calculateDistance($doctor_lat, $doctor_lon, $hotel_lat, $hotel_lon);
+        return response()->json([
+            'distance' => round($distance, 2),
+            'unit' => 'km',
+        ]);
+    }
 }
