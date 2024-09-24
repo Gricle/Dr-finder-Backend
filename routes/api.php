@@ -12,11 +12,17 @@ use App\Http\Controllers\Api\Tourist\TouristController;
 use App\Http\Controllers\Api\Tourist\ReservationController;
 use App\Http\Controllers\Api\Tourist\TicketController;
 use App\Http\Controllers\Api\Tourist\VisitController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::prefix('auth')->group(function () {
+    Route::post('/login',[AuthController::class, 'login']);
+    Route::post('/logout',[AuthController::class, 'logout'])
+    ->middleware(('auth:sanctum'));
+});
 
 Route::prefix('doctors')->group(function () {
     Route::get('/', [DoctorController::class, 'index']);
