@@ -25,15 +25,16 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
+        $this->authorize('create', Room::class);
+
         $hotel = $request->user()->hotel;
-        $room = $hotel->room()->create($request->validated());
-    
+        $room = $hotel->rooms()->create($request->validated());
+
         return response()->json([
-            'message' => 'room created successfully!',
+            'message' => 'Room created successfully!',
             'room' => new RoomResource($room)
         ], 201);
     }
-
 
     /**
      * Display the specified resource.
@@ -46,40 +47,24 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoomRequest $request, $id)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
+        $this->authorize('update', $room);
 
-        $room = Room::findOrFail($id);
-
-        $hotel = $room->hotel; 
-
-        $updater = $request->user()->hotel->id ;
-
-        if ($updater !== $hotel->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
         $room->update($request->validated());
-    
+
         return new RoomResource($room);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id, Request $request)
+    public function destroy(Room $room, Request $request)
     {
+        $this->authorize('delete', $room);
 
-        $room = Room::with('hotel')->findOrFail($id);
-        $hotel = $room->hotel;
-        $deleter = $request->user()->hotel->id;
-        
-        if ($deleter !== $hotel->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
         $room->delete();
-     
+
         return response()->noContent();
     }
 }
