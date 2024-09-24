@@ -13,86 +13,45 @@ use Illuminate\Support\Facades\Hash;
 
 class AirportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $airlines = Airport::all();
-        
-        return AirportResource::collection($airlines);
+        $airports = Airport::all();
+        return AirportResource::collection($airports);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreAirportRequest $request)
     {
         $user = User::create([
-
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->airport()->create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'address' => $request->address,
-        ]);
+
+        $airport = $user->airport()->create($request->validated());
+
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
-         
+            'data' => new AirportResource($airport),
         ], 201);
-        
-    } 
+    }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Airport $airport)
     {
         return new AirportResource($airport);
     }
 
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAirportRequest $request, $id)
+    public function update(UpdateAirportRequest $request, Airport $airport)
     {
-        $airport = Airport::findOrFail($id);
-        $user = $airport->user;
-    
-        if ($request->user()->id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
+        $this->authorize('update', $airport);
         $airport->update($request->validated());
-        $user->update($request->validated());
-    
         return new AirportResource($airport);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id, Request $request)
+    public function destroy(Airport $airport, Request $request)
     {
-        $airport = Airport::findOrFail($id);
-        $user = $airport->user;
-    
-        if ($request->user()->id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
+        $this->authorize('delete', $airport);
         $airport->delete();
-        $user->delete();
-    
         return response()->noContent();
     }
 }
