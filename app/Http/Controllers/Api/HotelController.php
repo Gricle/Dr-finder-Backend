@@ -14,27 +14,19 @@ use Illuminate\Support\Facades\Hash;
 
 class HotelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $hotels = Hotel::all();
         return HotelResource::collection($hotels);
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreHotelRequest $request)
     {
         $user = User::create([
-
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        
         $user->hotel()->create([
             'name' => $request->name,
             'stars' => $request->stars,
@@ -43,60 +35,37 @@ class HotelController extends Controller
             'longitude' => $request->longitude,
             'address' => $request->address,
         ]);
+        
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
-         
         ], 201);
-        
-    } 
-    /**
-     * Display the specified resource.
-     */
+    }
+
     public function show(Hotel $hotel)
     {
         return new HotelResource($hotel);
     }
 
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateHotelRequest $request, $id)
+    public function update(UpdateHotelRequest $request, Hotel $hotel)
     {
-        $hotel = Hotel::findOrFail($id);
-        $user = $hotel->user;
-    
-        if ($request->user()->id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
+        $this->authorize('update', $hotel);
+        
         $hotel->update($request->validated());
-        $user->update($request->validated());
-    
+        
         return new HotelResource($hotel);
     }
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id, Request $request)
+
+    public function destroy(Hotel $hotel, Request $request)
     {
-        $hotel = Hotel::findOrFail($id);
-        $user = $hotel->user;
-    
-        if ($request->user()->id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-    
+        $this->authorize('delete', $hotel);
+        
         $hotel->delete();
-        $user->delete();
-    
+        
         return response()->noContent();
     }
     
-
     public function recommendHotel(Request $request)
     {
         $query = DB::table('hotels')
@@ -112,7 +81,6 @@ class HotelController extends Controller
 
         $sortBy = $request->input('sort_by', 'average_score'); 
         $order = $request->input('order', 'desc');
-    
 
         if ($sortBy === 'average_score') {
             $query->orderBy('average_score', $order);
@@ -122,8 +90,6 @@ class HotelController extends Controller
             $query->orderBy(DB::raw('AVG(ratings.score) * COUNT(ratings.id)'), $order);
         }
     
-        $hotelData = $query->get();
-    
-        return response()->json($hotelData);
+        return response()->json($query->get());
     }
 }
