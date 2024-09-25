@@ -28,16 +28,17 @@ Route::prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/email/verify', function () {
         return response()->json(['message' => 'Please verify your email address.']);
-    });
+    })->name('verification.notice');
+
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return response()->json(['message' => 'Email verified successfully!']);
-    })->middleware(['signed']);
+    })->middleware(['signed'])->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
         return response()->json(['message' => 'Verification link sent!']);
-    })->middleware(['throttle:6,1']);
+    })->middleware(['throttle:6,1'])->name('verification.send');
 });
 
 Route::prefix('doctors')->group(function () {
