@@ -28,9 +28,11 @@ class AirportController extends Controller
 
         $airport = $user->airport()->create($request->validated());
 
+        $user->sendEmailVerificationNotification();
+
         return response()->json([
             'status' => true,
-            'message' => 'User registered successfully',
+            'message' => 'User registered successfully! Please check your email for verification.',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
             'data' => new AirportResource($airport),
         ], 201);

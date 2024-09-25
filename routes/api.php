@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Tourist\ReservationController;
 use App\Http\Controllers\Api\Tourist\TicketController;
 use App\Http\Controllers\Api\Tourist\VisitController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,6 +23,21 @@ Route::prefix('auth')->group(function () {
     Route::post('/login',[AuthController::class, 'login']);
     Route::post('/logout',[AuthController::class, 'logout'])
     ->middleware(('auth:sanctum'));
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/email/verify', function () {
+        return response()->json(['message' => 'Please verify your email address.']);
+    });
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return response()->json(['message' => 'Email verified successfully!']);
+    })->middleware(['signed']);
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return response()->json(['message' => 'Verification link sent!']);
+    })->middleware(['throttle:6,1']);
 });
 
 Route::prefix('doctors')->group(function () {

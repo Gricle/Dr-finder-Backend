@@ -38,10 +38,11 @@ class TouristController extends Controller
             'number' => $request->number,
             'birth_date' => $request->birth_date,
         ]);
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
             'status' => true,
-            'message' => 'User registered successfully',
+            'message' => 'User registered successfully! Please check your email for verification.',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
         ], 201);
     }
